@@ -1,0 +1,18 @@
+{
+  "@@locale": "ar",
+  "appTitle": "أوبن ترايل",
+  "exploreTitle": "استكشف الوجهات",
+  "weatherTitle": "توقعات الطقس",
+  "mapsTitle": "خرائط بدون اتصال",
+  "tripsTitle": "رحلاتي",
+  "favoritesTitle": "الأماكن المحفوظة",
+  "packingTitle": "قائمة الأمتعة",
+  "journeyTitle": "سجل السفر",
+  "settingsTitle": "الإعدادات",
+  "retryButton": "إعادة المحاولة",
+  "emptyStateTitle": "لم يتم العثور على نتائج",
+  "emptyStateSubtitle": "يرجى تعديل خيارات البحث والمحاولة مرة أخرى.",
+  "errorStateTitle": "حدث خطأ ما",
+  "searchHint": "ابحث عن الوجهات والطقس والخرائط...",
+  "offlineModeChip": "وضع عدم الاتصال"
+}

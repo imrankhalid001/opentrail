@@ -1,0 +1,18 @@
+{
+  "@@locale": "ja",
+  "appTitle": "OpenTrail",
+  "exploreTitle": "目的地を探す",
+  "weatherTitle": "天気予報",
+  "mapsTitle": "オフラインマップ",
+  "tripsTitle": "マイ旅行計画",
+  "favoritesTitle": "お気に入り",
+  "packingTitle": "持ち物リスト",
+  "journeyTitle": "旅行の記録",
+  "settingsTitle": "設定",
+  "retryButton": "再試行",
+  "emptyStateTitle": "結果が見つかりません",
+  "emptyStateSubtitle": "検索条件を変更して再度お試しください。",
+  "errorStateTitle": "エラーが発生しました",
+  "searchHint": "目的地、ランドマーク、天気を検索...",
+  "offlineModeChip": "オフラインモード"
+}

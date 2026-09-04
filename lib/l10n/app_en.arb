@@ -1,0 +1,21 @@
+{
+  "@@locale": "en",
+  "appTitle": "OpenTrail",
+  "@appTitle": {
+    "description": "Main application title"
+  },
+  "exploreTitle": "Discover Destinations",
+  "weatherTitle": "Weather Forecast",
+  "mapsTitle": "Offline Maps",
+  "tripsTitle": "My Trips",
+  "favoritesTitle": "Saved Places",
+  "packingTitle": "Packing List",
+  "journeyTitle": "Travel Journey",
+  "settingsTitle": "Settings",
+  "retryButton": "Retry",
+  "emptyStateTitle": "No Results Found",
+  "emptyStateSubtitle": "Try adjusting your search filters or check back later.",
+  "errorStateTitle": "Something Went Wrong",
+  "searchHint": "Search destinations, landmarks, weather...",
+  "offlineModeChip": "Offline Mode"
+}

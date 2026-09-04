@@ -1,0 +1,18 @@
+{
+  "@@locale": "ur",
+  "appTitle": "اوپن ٹریل",
+  "exploreTitle": "مقامات دریافت کریں",
+  "weatherTitle": "موسم کی پیشین گوئی",
+  "mapsTitle": "آف لائن نقشے",
+  "tripsTitle": "میرے اسفار",
+  "favoritesTitle": "محفوظ شدہ مقامات",
+  "packingTitle": "پیکنگ لسٹ",
+  "journeyTitle": "سفر کی ہسٹری",
+  "settingsTitle": "سیٹنگز",
+  "retryButton": "دوبارہ کوشش کریں",
+  "emptyStateTitle": "کوئی نتائج نہیں ملے",
+  "emptyStateSubtitle": "براہ کرم اپنی تلاش کے فلٹرز میں تبدیلی کریں۔",
+  "errorStateTitle": "کچھ غلط ہو گیا",
+  "searchHint": "مقامات، موسم اور نقشے تلاش کریں...",
+  "offlineModeChip": "آف لائن موڈ"
+}
