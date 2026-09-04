@@ -1,27 +1,35 @@
-# Continuous Integration & Continuous Deployment (CI/CD) ⚙️
+# CI/CD Pipeline & DevOps Strategy 🚀
 
-OpenTrail uses GitHub Actions for automated non-destructive code validation.
+This document describes the planned future GitHub Actions automated CI/CD validation and release workflow for OpenTrail.
+
+---
+
+## 1. Automated Validation Pipeline Flow
 
 ```
- [Pull Request / Push to Main]
-              │
-              ▼
-    [1. Set up Flutter SDK]
-              │
-              ▼
-   [2. Run flutter pub get]
-              │
-              ▼
-   [3. Check Code Formatting]
-       (dart format)
-              │
-              ▼
-   [4. Execute Static Analysis]
-      (flutter analyze)
-              │
-              ▼
-   [5. Run Automated Test Suite]
-       (flutter test)
+[Pull Request Opened / Updated]
+               │
+               ▼
+     [1. Format Check: dart format --output=none --set-exit-if-changed .]
+               │
+               ▼
+     [2. Static Analysis: flutter analyze]
+               │
+               ▼
+     [3. Unit & Widget Tests: flutter test --coverage]
+               │
+               ▼
+     [4. Build Validation: flutter build apk --debug]
+               │
+               ▼
+     [Code Review & Merge to main]
 ```
 
-No automated publishing to app stores occurs without human release tagging and manual approval.
+---
+
+## 2. Release Automation (Future Scope)
+
+When a version tag is pushed to `main` (e.g. `v1.0.0`):
+1. Build signed Android App Bundle (AAB) and iOS archive.
+2. Generate automated release changelog based on conventional commits.
+3. Attach build artifacts to GitHub Release notes.

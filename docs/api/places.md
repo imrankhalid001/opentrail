@@ -1,8 +1,10 @@
-# Wikipedia & Wikidata Integration Specs 🏛️
+# Wikipedia & Wikidata Integration 🏛️
 
-## Overview
-Landmark descriptions, attraction summaries, and historical context are fetched dynamically from Wikipedia REST APIs.
+OpenTrail uses **Wikipedia API** and **Wikimedia Commons** for landmark summaries, cultural descriptions, and photo galleries.
 
-- **Base Endpoint**: `https://en.wikipedia.org/api/rest_v1/page/summary/{title}`
-- **Response Data**: Extracts `extract` (summary description), `thumbnail` (image URL), and `coordinates` (lat/long).
-- **Attribution**: Displayed with standard "Source: Wikipedia (CC-BY-SA 3.0)" caption.
+## Services & Endpoints
+- **Summary API**: `https://en.wikipedia.org/api/rest_v1/page/summary/{title}`
+- **Landmark Images**: Wikimedia Commons API.
+- **Authentication**: None required.
+- **Caching & Offline**: Summaries cached in Drift SQLite for 7 days; images cached in disk memory for 30 days.
+- **Attribution**: "Content from Wikipedia (CC-BY-SA 3.0)".

@@ -1,22 +1,8 @@
-# Unit Testing Guidelines 🔬
+# Unit Testing Guidelines 🧪
 
-Unit tests in OpenTrail verify pure logic in ViewModels, Repositories, Services, and Utilities without mounting Flutter widgets.
+Unit tests in OpenTrail target ViewModels, Repositories, Services, Result monads, and utility formatters.
 
-## Unit Test Structure
-
-```dart
-void main() {
-  group('Result Monad Tests', () {
-    test('Success returns encapsulated value', () {
-      const result = Success<String, Exception>('Tokyo');
-      expect(result.value, equals('Tokyo'));
-    });
-
-    test('Failure returns encapsulated exception', () {
-      final exception = Exception('Network error');
-      final result = Failure<String, Exception>(exception);
-      expect(result.exception, equals(exception));
-    });
-  });
-}
-```
+## Guidelines
+1. Tests use `flutter_test` and `ProviderContainer`.
+2. Repositories and REST clients are mocked using `ProviderContainer(overrides: [...])`.
+3. Test success and failure branches for `Result<S, E>`.

@@ -1,26 +1,58 @@
-# Essential Development Commands 💻
+# CLI Development Commands Guide 🛠️
 
-Common CLI development commands for building, testing, and verifying OpenTrail:
+This document lists essential CLI commands for developing, testing, and formatting OpenTrail.
+
+---
+
+## 1. Setup & Package Management
 
 ```bash
-# 1. Fetch pub dependencies
+# Fetch all dependencies
 flutter pub get
 
-# 2. Run code generation (Freezed, JSON Serializable, Drift)
-flutter pub run build_runner build --delete-conflicting-outputs
+# Upgrade dependencies (compatible versions)
+flutter pub upgrade
+```
 
-# 3. Format code
+---
+
+## 2. Code Generation (`build_runner`)
+
+```bash
+# Run one-time code generation for Freezed & Drift models
+dart run build_runner build --delete-conflicting-outputs
+
+# Watch for file changes during active development
+dart run build_runner watch --delete-conflicting-outputs
+```
+
+---
+
+## 3. Formatting, Analysis & Testing
+
+```bash
+# 1. Format code according to Dart guidelines
 dart format .
 
-# 4. Static analysis
+# 2. Run static analysis (must report zero issues)
 flutter analyze
 
-# 5. Execute all unit and widget tests
+# 3. Run all unit and widget tests
 flutter test
 
-# 6. Run application in development mode
+# 4. Run tests with coverage output
+flutter test --coverage
+```
+
+---
+
+## 4. Running the Application
+
+```bash
+# Run on default connected device/emulator
 flutter run
 
-# 7. Build release APK
-flutter build apk --release
+# Run on specific target platform
+flutter run -d macos
+flutter run -d chrome
 ```

@@ -1,19 +1,11 @@
-# Open-Meteo Weather Integration Specs 🌤️
+# Open-Meteo Weather API Specification 🌤️
 
-## Overview
-Open-Meteo provides accurate open-source weather forecasts without requiring API keys.
+OpenTrail integrates **Open-Meteo** for global weather forecasts and historical climate metrics.
 
-- **Base Endpoint**: `https://api.open-meteo.com/v1/forecast`
-- **Method**: `GET`
-- **Parameters**:
-  - `latitude`: Decimal (e.g. `35.6762`)
-  - `longitude`: Decimal (e.g. `139.6503`)
-  - `hourly`: `temperature_2m,relative_humidity_2m,precipitation_probability,weather_code`
-  - `daily`: `temperature_2m_max,temperature_2m_min,uv_index_max`
-  - `timezone`: `auto`
-
----
-
-## Caching & Rate Limit Compliance
-- OpenTrail caches Open-Meteo JSON responses in SQLite for **1 hour** to minimize server load.
-- Exponential backoff is applied if rate limit HTTP 429 status codes are encountered.
+## Endpoint & Parameters
+- **Base URL**: `https://api.open-meteo.com/v1/forecast`
+- **Parameters**: `latitude`, `longitude`, `hourly=temperature_2m,relative_humidity_2m,precipitation_probability`, `daily=weather_code,temperature_2m_max,temperature_2m_min,uv_index_max`
+- **Authentication**: None required.
+- **Rate Limits**: 10,000 daily requests per IP address.
+- **Caching & Offline**: Responses cached in Drift SQLite for 1 hour.
+- **Attribution Requirement**: "Weather data powered by Open-Meteo (CC-BY 4.0)".

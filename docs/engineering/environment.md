@@ -1,11 +1,13 @@
-# Environment Configuration & Launch Setup ⚙️
+# Environment Configuration & Safe Secret Handling 🔒
 
-OpenTrail uses `.env` files paired with compile-time `--dart-define` overrides for environment configuration.
+OpenTrail follows a strict **Zero-Secrets Policy**.
 
-## Environment Files
-- `.env.example`: Safe configuration template committed to Git.
-- `.env`: Local development configuration ignored by `.gitignore`.
+---
 
-## Security Rules
-- **ZERO secrets** in source control.
-- API keys, credentials, or certificates must **never** be committed.
+## 1. Zero Secrets in Source Code
+- **No API Keys in Git**: Never commit API keys, tokens, passwords, or certificates into `.dart` files or `.env` files.
+- **Environment Injection**: Runtime parameters are injected via compile-time `--dart-define` flags:
+  ```bash
+  flutter run --dart-define=API_ENVIRONMENT=production
+  ```
+- **`.gitignore` Enforcement**: All `.env`, `.env.local`, and platform secret files are strictly ignored in `.gitignore`.

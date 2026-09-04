@@ -1,20 +1,32 @@
-# Git Workflow & Branch Strategy 🌿
+# Git Workflow & Branching Strategy 🌿
 
-OpenTrail follows a structured feature-branch workflow.
-
-## Branch Hierarchy
-```text
-main (stable release-ready code)
-  ├── feature/explore-feed
-  ├── fix/weather-card-overflow
-  ├── docs/update-architecture
-  └── refactor/extract-app-card
-```
+OpenTrail uses a structured feature-branch Git workflow and Conventional Commits.
 
 ---
 
-## Branch Rules
-1. `main` is protected — direct commits to `main` are prohibited.
-2. All changes must be submitted via Pull Requests.
-3. PRs require passing CI validation (`dart format`, `flutter analyze`, `flutter test`).
-4. Commit messages follow Conventional Commits format (`feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`).
+## 1. Branch Hierarchy
+
+- `main`: Production-ready stable branch.
+- `feature/*`: Feature development branches (e.g., `feature/weather-forecast-card`).
+- `fix/*`: Bug fix branches (e.g., `fix/itinerary-drag-drop-reorder`).
+- `refactor/*`: Code refactoring branches.
+- `docs/*`: Documentation updates.
+- `chore/*`: Tooling or build configuration updates.
+
+---
+
+## 2. Conventional Commits Standard
+
+Commits follow the Conventional Commits specification:
+- `feat: add live weather 7-day forecast card`
+- `fix: resolve dark theme text contrast on destination card`
+- `refactor: extract date_formatter utility`
+- `docs: update API strategy for Open-Meteo`
+- `test: add widget tests for AppSearchBar`
+- `chore: update Riverpod dependency version`
+
+---
+
+## 3. Pull Request Rules
+- Branch protection on `main`. No force pushing.
+- All PRs require `flutter analyze` and `flutter test` checks to pass.

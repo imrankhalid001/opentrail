@@ -1,28 +1,8 @@
 # Widget Testing Guidelines 🧩
 
-Widget tests verify component rendering, user gesture handling, and state transitions (`loading`, `error`, `data`).
+Widget tests verify reusable design system controls (`lib/core/widgets/`) and screen states.
 
-## Example Widget Test (`AppButton`)
-
-```dart
-void main() {
-  testWidgets('AppButton renders label and triggers onPressed on tap', (tester) async {
-    bool tapped = false;
-
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: AppButton(
-            label: 'Explore',
-            onPressed: () => tapped = true,
-          ),
-        ),
-      ),
-    );
-
-    expect(find.text('Explore'), findsOneWidget);
-    await tester.tap(find.byType(AppButton));
-    expect(tapped, isTrue);
-  });
-}
-```
+## Guidelines
+1. Wrap tested widgets in `UncontrolledProviderScope` and `MaterialApp`.
+2. Test 4 state branches: `loading` (`AppSkeleton`), `error` (`AppErrorState`), `empty` (`AppEmptyState`), and `data`.
+3. Verify tap interactions and accessibility semantic labels.

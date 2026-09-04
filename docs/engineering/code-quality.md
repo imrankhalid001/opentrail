@@ -1,17 +1,35 @@
-# Code Quality Standards & Lints 🛠️
+# Code Quality, Formatting & Static Analysis Guidelines 🧹
 
-OpenTrail enforces strict static analysis standards to guarantee readable, maintainable Dart code.
-
-## Quality Gates
-1. **Formatting**: `dart format .` must produce zero changes.
-2. **Static Analysis**: `flutter analyze` must pass with **0 warnings and 0 errors**.
-3. **Automated Lints**: `analysis_options.yaml` enables `strict-casts`, `strict-inference`, and `strict-raw-types`.
+OpenTrail enforces high code quality standards to ensure consistency, readability, and null safety.
 
 ---
 
-## Code Style Rules
-- Always use `const` constructors where applicable.
-- Name files using `snake_case.dart`.
-- Name classes using `PascalCase`.
-- Name variables, functions, and parameters using `camelCase`.
-- Mark private members with an underscore `_`.
+## 1. Quality Gates
+Before submitting any pull request or committing code, all changes must pass three mandatory quality gates:
+
+```bash
+# 1. Format code according to Dart guidelines
+dart format .
+
+# 2. Run static analysis (0 warnings / errors required)
+flutter analyze
+
+# 3. Execute unit and widget tests
+flutter test
+```
+
+---
+
+## 2. Static Analysis Configuration (`analysis_options.yaml`)
+- `strict-casts: true`
+- `strict-inference: true`
+- `strict-raw-types: true`
+- Enforces `prefer_const_constructors`, `prefer_single_quotes`, and `use_build_context_synchronously`.
+
+---
+
+## 3. Code Standards & Rules
+- **No Unused Imports / Code**: Unused variables, dead imports, or commented-out code blocks are strictly forbidden.
+- **No Suppressing Warnings**: Suppressing analyzer warnings using `// ignore:` comments without explicit architectural justification is forbidden.
+- **Logging Policy**: Use `AppLogger.d()` or `AppLogger.e()` instead of `print()` or `debugPrint()`.
+- **TODO Policy**: All TODO comments must include an issue reference (e.g., `// TODO(#42): Refactor tile caching engine`).

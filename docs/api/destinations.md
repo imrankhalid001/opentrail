@@ -1,8 +1,10 @@
-# REST Countries Integration Specs 🌍
+# REST Countries API Specification 🌍
 
-## Overview
-Country metadata (flag SVG, population, region, capital city, official languages, currency codes) is retrieved from REST Countries.
+OpenTrail integrates **RestCountries API** for destination discovery feeds, country metadata, languages, currencies, and capital cities.
 
-- **Endpoint**: `https://restcountries.com/v3.1/all?fields=name,capital,region,languages,currencies,flags,latlng`
-- **Method**: `GET`
-- **Caching**: Full dataset is cached locally in SQLite for 30 days.
+## Services & Endpoints
+- **All Countries**: `https://restcountries.com/v3.1/all`
+- **Country by Code**: `https://restcountries.com/v3.1/alpha/{code}`
+- **Authentication**: None required.
+- **Caching & Offline**: Country dataset cached in Drift SQLite for 7 days.
+- **Attribution**: "Country data provided by REST Countries".

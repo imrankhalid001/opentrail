@@ -5,7 +5,7 @@
     "description": "Main application title"
   },
   "exploreTitle": "Discover Destinations",
-  "weatherTitle": "Weather Forecast",
+  "weatherTitle": "Weather Intelligence",
   "mapsTitle": "Offline Maps",
   "tripsTitle": "My Trips",
   "favoritesTitle": "Saved Places",
@@ -17,5 +17,33 @@
   "emptyStateSubtitle": "Try adjusting your search filters or check back later.",
   "errorStateTitle": "Something Went Wrong",
   "searchHint": "Search destinations, landmarks, weather...",
-  "offlineModeChip": "Offline Mode"
+  "offlineModeChip": "Offline Mode",
+  "weatherSearchHint": "Search countries or capitals...",
+  "weatherHourlyForecast": "Hourly Forecast",
+  "weatherDailyForecast": "7-Day Forecast",
+  "weatherWind": "Wind",
+  "weatherUVIndex": "UV Index",
+  "weatherHumidity": "Humidity",
+  "weatherPrecipitation": "Precipitation",
+  "weatherNoResults": "No matching locations found.",
+  "weatherSearchError": "Error searching: {error}",
+  "@weatherSearchError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "mapSearchHint": "Search cafes, museums, cities...",
+  "mapDirections": "Directions",
+  "mapViewDetails": "View Details",
+  "mapNoResults": "No matching locations found.",
+  "mapSearchError": "Error finding places: {error}",
+  "@mapSearchError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  }
 }

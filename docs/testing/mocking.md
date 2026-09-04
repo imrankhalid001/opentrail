@@ -1,8 +1,6 @@
-# Mocking Strategy 🎭
+# Mocking & Overrides Strategy 🎭
 
-OpenTrail uses **Riverpod Provider Overrides** and explicit fake/mock service implementations for fast, deterministic unit and widget testing.
-
-## Riverpod Override Example in Widget Tests
+OpenTrail uses Riverpod's native provider overrides for mocking dependencies during testing.
 
 ```dart
 final container = ProviderContainer(

@@ -1,29 +1,31 @@
-# Localization & Multi-Language Strategy 🌐
+# Localization & RTL Strategy 🌍
 
-OpenTrail is engineered for worldwide accessibility with full support for Left-to-Right (LTR) and Right-to-Left (RTL) locales.
-
-## Supported Locales in Foundation
-- `en`: English (Base Locale)
-- `ur`: Urdu (RTL)
-- `ar`: Arabic (RTL)
-- `ja`: Japanese
+OpenTrail uses Flutter's official localization framework (`flutter_localizations` + `intl`) driven by `.arb` translation resource files located in `lib/l10n/`.
 
 ---
 
-## ARB File Workflow
-All user-facing text strings reside in `lib/l10n/app_<locale>.arb` files.
+## 1. Supported Locales
 
-```json
-{
-  "appTitle": "OpenTrail",
-  "@appTitle": {
-    "description": "Main title of the application"
-  },
-  "exploreTitle": "Discover Destinations",
-  "weatherForecastTitle": "Weather Forecast",
-  "retryButton": "Retry",
-  "emptyStateTitle": "No Results Found"
-}
-```
+- **English (`en`)**: Primary default language (`app_en.arb`).
+- **Urdu (`ur`)**: Regional language support (`app_ur.arb`).
+- **Arabic (`ar`)**: Native Right-To-Left (RTL) layout support (`app_ar.arb`).
+- **Japanese (`ja`)**: Asian typography and character support (`app_ja.arb`).
 
-Never hardcode string literals inside Flutter widget trees!
+---
+
+## 2. ARB Translation Workflow
+
+1. Base strings are defined in `lib/l10n/app_en.arb`:
+   ```json
+   {
+     "appTitle": "OpenTrail",
+     "exploreTitle": "Explore Destinations",
+     "weatherTitle": "Weather Forecast",
+     "myTripsTitle": "My Trips",
+     "favoritesTitle": "Favorites",
+     "settingsTitle": "Settings"
+   }
+   ```
+2. Flutter's build tool generates type-safe localization classes in `AppLocalizations`.
+3. UI widgets access localized strings via `AppLocalizations.of(context)!.exploreTitle` or context extension helpers (`context.l10n.exploreTitle`).
+4. **Zero Hardcoded Strings Rule**: User-facing text string literals inside Flutter widgets are strictly prohibited.

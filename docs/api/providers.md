@@ -1,11 +1,11 @@
-# Evaluated Open Data Providers 📊
+# Evaluated Open Data Providers 🌐
 
-OpenTrail relies strictly on open public data sources with zero mandatory paid subscription tiers:
+OpenTrail depends exclusively on free, open, public data sources with zero mandatory API key requirements or commercial paywalls.
 
-| Domain | Provider | Endpoint | Auth | Usage Limits | License |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Weather** | Open-Meteo | `https://api.open-meteo.com/v1` | None | 10,000 req/day (Free) | Non-commercial / CC-BY 4.0 |
-| **Maps** | OpenStreetMap | `https://tile.openstreetmap.org` | None | Open usage policy | ODbL 1.0 |
-| **Geocoding** | Nominatim | `https://nominatim.openstreetmap.org` | None | 1 req/sec max | ODbL 1.0 |
-| **Attractions** | Wikipedia API | `https://en.wikipedia.org/w/api.php` | None | Standard Wikimedia rate limits | CC-BY-SA 3.0 |
-| **Countries** | REST Countries | `https://restcountries.com/v3.1` | None | Public open access | MPL 2.0 |
+| Provider | Purpose | Primary Endpoints | Rate Limits | License | Decision |
+| :--- | :--- | :--- | :--- | :--- | :---: |
+| **Open-Meteo** | Live weather forecasts & historical climate | `/v1/forecast`, `/v1/climate` | 10,000 daily calls (Free) | CC-BY 4.0 | **SELECTED** |
+| **OpenStreetMap** | Vector map tiles & POI geocoding | `tile.openstreetmap.org`, Nominatim | 1 req/sec (Nominatim) | ODbL / CC-BY-SA | **SELECTED** |
+| **Wikipedia & Wikidata** | Cultural summaries, landmarks, photo galleries | `/w/api.php`, Wikidata SPARQL | Open / Reasonable attribution | CC-BY-SA 3.0 | **SELECTED** |
+| **RestCountries** | Country metadata, currencies, capitals | `/v3.1/all`, `/v3.1/alpha/{code}` | Open | MIT / Public Domain | **SELECTED** |
+| **Frankfurter API** | Public currency exchange rates | `/latest`, `/{date}` | Open | MIT / Public Data | **SELECTED** |

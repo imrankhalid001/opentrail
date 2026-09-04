@@ -1,7 +1,8 @@
 # Integration Testing Guidelines 🚀
 
-Integration tests verify end-to-end workflows across navigation routes, repository data fetching, and local SQLite database persistence.
+Integration tests verify end-to-end user journeys (e.g., creating a trip, searching destinations offline).
 
-## Key Integration Test Scenarios
-1. **Offline Mode Recovery**: Saving a trip while online, disconnecting network connectivity, relaunching app, and verifying trip data remains accessible.
-2. **Search to Itinerary Flow**: Searching for "Tokyo", opening destination details, adding to trip itinerary, and verifying SQLite insertion.
+## Guidelines
+1. Execute against mock database and REST servers.
+2. Verify cross-screen navigation with GoRouter.
+3. Validate offline SQLite persistence across app restarts.
