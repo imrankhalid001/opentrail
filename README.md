@@ -117,7 +117,7 @@ lib/
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/opentrail/opentrail.git
+   git clone https://github.com/imrankhalid001/opentrail.git
    cd opentrail
    ```
 
