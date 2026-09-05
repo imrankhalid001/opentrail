@@ -1,4 +1,6 @@
+import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_projects/core/database/app_database.dart';
 import 'package:flutter_projects/features/explore/data/models/destination.dart';
 import 'package:flutter_projects/features/explore/data/repositories/explore_repository.dart';
 import 'package:flutter_projects/features/explore/data/services/rest_countries_service.dart';
@@ -48,13 +50,20 @@ void main() {
     summary: 'Island country in East Asia.',
   );
 
+  late AppDatabase db;
   late ExploreRepository repository;
 
   setUp(() {
+    db = AppDatabase(NativeDatabase.memory());
     repository = ExploreRepositoryImpl(
       countriesService: MockRestCountriesService([sampleDestination]),
       wikipediaService: MockWikipediaService(),
+      db: db,
     );
+  });
+
+  tearDown(() async {
+    await db.close();
   });
 
   test('getDestinations returns list of destinations successfully', () async {

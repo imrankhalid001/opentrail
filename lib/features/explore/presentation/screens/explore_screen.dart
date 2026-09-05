@@ -97,16 +97,29 @@ class ExploreScreen extends ConsumerWidget {
                     itemCount: destinations.length,
                     itemBuilder: (context, index) {
                       final dest = destinations[index];
-                      return DestinationCard(
-                        destination: dest,
-                        onTap: () {
-                          context.push('/destination/${dest.id}');
+                      return TweenAnimationBuilder<double>(
+                        duration: Duration(milliseconds: 300 + (index % 10 * 50)),
+                        tween: Tween(begin: 0.0, end: 1.0),
+                        builder: (context, value, child) {
+                          return Opacity(
+                            opacity: value,
+                            child: Transform.translate(
+                              offset: Offset(0, 30 * (1 - value)),
+                              child: child,
+                            ),
+                          );
                         },
-                        onFavoriteToggle: (_) {
-                          ref
-                              .read(exploreViewModelProvider.notifier)
-                              .toggleFavorite(dest.id);
-                        },
+                        child: DestinationCard(
+                          destination: dest,
+                          onTap: () {
+                            context.push('/destination/${dest.id}');
+                          },
+                          onFavoriteToggle: (_) {
+                            ref
+                                .read(exploreViewModelProvider.notifier)
+                                .toggleFavorite(dest.id);
+                          },
+                        ),
                       );
                     },
                   ),

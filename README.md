@@ -5,32 +5,54 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-OpenTrail is an **open-source, feature-rich, UI/UX-first travel intelligence application** built with Flutter and Dart. Designed to showcase modern mobile engineering practices, offline-first data architecture, and elegant user experiences, OpenTrail provides seamless destination discovery, offline maps, weather insights, itinerary planning, packing assistance, and travel analytics.
+> **Your Offline-First Travel Intelligence Companion.** Built with a UI/UX-first philosophy, OpenTrail is a feature-rich application that empowers travelers to explore, plan, and share their journeys with 100% on-device privacy and open data intelligence.
 
 ---
 
-## 🌟 Highlights & Features
+## 🌟 Highlights & Core Features
 
-- 🌍 **Destination Discovery**: Rich intelligence on countries, cities, landmarks, and local culture powered by open data.
-- 🗺️ **Interactive & Offline Maps**: Vector map tile rendering, POI exploration, and offline map region downloads.
-- 🌤️ **Live Weather & Climate Insights**: Hourly forecasts, historical climate patterns, and packing recommendations via Open-Meteo.
-- 📝 **Drag-and-Drop Itinerary Planner**: Interactive day-by-day trip planning with offline synchronization.
-- 🧳 **Smart Packing Lists**: Category-driven packing checklists tailored to destination weather and activities.
-- 🏆 **Travel Statistics & Achievements**: Personal travel milestones, country scratch-off counters, and privacy-first local analytics.
-- ⚡ **Offline-First Data Engine**: Local SQLite caching with Drift ensuring 100% functionality without network connectivity.
-- 🎨 **Material 3 Design System**: Dark/Light mode support, fluid micro-interactions, responsive cross-device layout, and accessibility (WCAG AA).
-- 🌐 **Localization Ready**: Native multi-language foundation supporting English, Urdu, Arabic (RTL), and Japanese.
+### 🌍 Destination Intelligence
+- **250+ Global Destinations**: In-depth data on nearly every country and territory.
+- **Wikipedia Integration**: Cultural summaries and landmark photo galleries fetched and cached for offline reading.
+- **Country Insights**: Instant access to local currencies, official languages, population stats, and timezones.
+
+### 🌤️ Live Weather Engine
+- **Dynamic 7-Day Forecasts**: Real-time weather curves powered by Open-Meteo.
+- **Animated Iconography**: Condition-aware animations (Rotating Sun, Pulsing Moon, Drifting Clouds, Bouncing Rain).
+- **Smart Hourly Intervals**: Optimized 2-hour timeline for a cleaner overview of your day.
+- **Weather Search**: Search any city or capital globally to check its local forecast.
+
+### 🗺️ Interactive & Offline Mapping
+- **OpenStreetMap Integration**: High-performance vector tile rendering for fluid exploration.
+- **POI Discovery**: Discover cafes, museums, transit hubs, and landmarks via Nominatim.
+- **Place Detail Sheets**: Tapping any marker opens a detailed information sheet with address and type classification.
+
+### 📝 Itinerary & Trip Planner
+- **Persistent Storage**: All trips are saved locally in a high-performance **Drift SQLite** database.
+- **Drag-and-Drop Activities**: Fluidly reorder your daily activities with instant database synchronization.
+- **Elevation Profiles**: Import GPX route files to visualize hiking trails with interactive elevation charts.
+
+### 🧳 Smart Utilities
+- **Weather-Aware Packing**: Automatically generates gear suggestions (like rain jackets or sunscreen) based on your destination's forecast.
+- **Travel Journey Stats**: Track your progress with a "Countries Visited" counter and persistent trip archives.
+- **Achievements**: Unlock unique badges as you explore the world and save new memories.
+
+### 🛡️ Ecosystem & Privacy
+- **Encrypted QR Sharing**: Share entire trip itineraries peer-to-peer using AES-256 encrypted QR codes. No cloud required.
+- **100% Offline-First**: Stale-while-revalidate architecture ensures you never lose access to your plans, even in zero-connectivity areas.
+- **Zero-Secret Policy**: No mandatory accounts, no tracking, and no cloud data harvesting.
 
 ---
 
 ## 🏗️ Architecture Overview
 
-OpenTrail uses a **Feature-First Architecture** combined with **MVVM (Model-View-ViewModel)** and the **Repository Pattern**.
+OpenTrail enforces a **Feature-First MVVM Architecture** paired with the **Repository Pattern** and **Unidirectional Data Flow**.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                       Presentation                          │
 │               Widgets & Views  <───>  ViewModels            │
+│          (Stateless UI Reacting to Riverpod Notifiers)      │
 └──────────────────────────────┬──────────────────────────────┘
                                │ Reads / Emits State
                                ▼
@@ -43,16 +65,16 @@ OpenTrail uses a **Feature-First Architecture** combined with **MVVM (Model-View
             ▼                                     ▼
 ┌───────────────────────────────┐   ┌──────────────────────────┐
 │        Remote Services        │   │      Local Database      │
-│ (Dio REST APIs: Open-Meteo,   │   │  (Drift SQL, SharedPrefs │
-│  Wikimedia, OpenStreetMap)    │   │      Key-Value Cache)    │
+│ (Dio REST APIs: Open-Meteo,   │   │  (Drift SQL Persistence, │
+│  Wikimedia, OpenStreetMap)    │   │      SQLite Migrations)  │
 └───────────────────────────────┘   └──────────────────────────┘
 ```
 
 ### Key Architectural Tenets
-1. **Repositories as Truth**: Presentation components interact strictly with Repositories.
-2. **Feature Isolation**: Code is organized into standalone features (`explore`, `weather`, `map`, `trips`, etc.).
-3. **Unidirectional Data Flow**: UI reacts to immutable state streams exposed by Riverpod ViewModels.
-4. **Strong Typing & Result Types**: Operations return sealed `Result<T, Exception>` types to guarantee explicit error handling.
+1. **Feature Isolation**: Standalone feature modules (`explore`, `weather`, `map`, `trips`, `journey`).
+2. **Reactive Persistence**: Drift streams ensure the UI updates instantly when the database changes.
+3. **Strong Result Types**: Methods return sealed `Result<S, E>` monads for exhaustive compile-time error handling.
+4. **Performance Optimized**: Repaint boundaries and intelligent image caching for 120 FPS rendering.
 
 ---
 
@@ -61,49 +83,13 @@ OpenTrail uses a **Feature-First Architecture** combined with **MVVM (Model-View
 | Domain | Technology / Library | Reason |
 | :--- | :--- | :--- |
 | **Framework** | [Flutter 3.47.2](https://flutter.dev) | Cross-platform UI engine |
-| **Language** | [Dart 3.13.2](https://dart.dev) | Sound null-safety, pattern matching |
-| **State Management** | [Riverpod 2.x](https://riverpod.dev) | Compile-safe, declarative state management |
-| **Routing** | [GoRouter](https://pub.dev/packages/go_router) | Declarative routing & deep linking |
-| **Networking** | [Dio](https://pub.dev/packages/dio) | Interceptors, retries, and cancellation tokens |
-| **Local Database** | [Drift](https://drift.simonbinder.eu) | Type-safe reactive SQLite persistence |
-| **Models & Codegen** | [Freezed](https://pub.dev/packages/freezed) | Immutable data classes & pattern matching |
-| **Localization** | `flutter_localizations` & ARB | Official Flutter i18n support |
-
----
-
-## 🌐 Open API & Data Attribution
-
-OpenTrail is built strictly using free, open, and community-driven data sources:
-
-- **Weather Data**: [Open-Meteo](https://open-meteo.com) (*Non-commercial / Commercial Open License*)
-- **Geographic & POI Data**: [OpenStreetMap](https://www.openstreetmap.org/) & [Nominatim](https://nominatim.org) (*ODbL*)
-- **Landmarks & Cultural Intelligence**: [Wikipedia API](https://www.mediawiki.org/wiki/API:Main_page) & [Wikimedia Commons](https://commons.wikimedia.org) (*CC-BY-SA 3.0*)
-- **Country Metadata**: [REST Countries](https://restcountries.com) (*MPL 2.0*)
-
----
-
-## 📁 Directory Structure
-
-```
-lib/
-├── app/                  # Application Shell, Router, Theme, & DI
-│   ├── app.dart
-│   ├── router/
-│   └── theme/
-├── core/                 # Shared Utilities, Design System, & Core Logic
-│   ├── errors/           # Typed Exception Hierarchy
-│   ├── logging/          # Unified App Logger
-│   ├── result/           # Result<T, Exception> Monad
-│   └── widgets/          # Reusable Design System Component Library
-├── features/             # Feature Modules (Feature-First)
-│   ├── explore/
-│   ├── weather/
-│   ├── map/
-│   ├── trips/
-│   ├── favorites/
-│   └── packing/
-└── l10n/                 # Localization Catalogs (.arb files)
-```
+| **Persistence** | [Drift (SQLite)](https://drift.simonbinder.eu) | Reactive, type-safe relational storage |
+| **State Management** | [Riverpod 2.x](https://riverpod.dev) | Compile-safe Dependency Injection & State |
+| **Maps** | [Flutter Map (OSM)](https://pub.dev/packages/flutter_map) | Interactive OpenStreetMap rendering |
+| **Networking** | [Dio](https://pub.dev/packages/dio) | Interceptors, retries, and cancellation |
+| **Sharing** | [Encrypt (AES)](https://pub.dev/packages/encrypt) | Secure peer-to-peer trip transfer |
+| **Visualization** | [FL Chart](https://pub.dev/packages/fl_chart) | Interactive elevation and climate profiles |
+| **Performance** | `cached_network_image` | Low-bandwidth destination photo caching |
 
 ---
 
@@ -126,9 +112,9 @@ lib/
    flutter pub get
    ```
 
-3. **Copy environment template**:
+3. **Generate local code (Drift & Freezed)**:
    ```bash
-   cp .env.example .env
+   dart run build_runner build --delete-conflicting-outputs
    ```
 
 4. **Verify static analysis & run tests**:
@@ -144,14 +130,15 @@ lib/
 
 ---
 
-## 🗺️ Product Roadmap
+## 🗺️ Completed Roadmap
 
-- [x] **Phase 0 — Project Foundation & Engineering Architecture**: Design system, docs, folder structure, CI validation, and state management rules.
-- [ ] **Milestone 1 — Destination Intelligence & Explore**: Discovery feeds, country details, and Wikipedia integration.
-- [ ] **Milestone 2 — Live Weather Engine**: Open-Meteo multi-city forecasting and climate charts.
-- [ ] **Milestone 3 — Interactive Map & Places**: OpenStreetMap tile viewer, POI search, and geocoding.
-- [ ] **Milestone 4 — Trip Planning & Offline Sync**: Itinerary creation, drag-and-drop builder, and Drift local storage.
-- [ ] **Milestone 5 — Packing, Achievements & Localization**: Smart checklists, travel counters, RTL support (Urdu/Arabic), and Japanese translation.
+- [x] **Phase 0 — Project Foundation**: Feature-first MVVM, Design System tokens, and architecture rules.
+- [x] **Milestone 1 — Destination Intelligence**: 250+ country dataset, Wikipedia enrichment, and search.
+- [x] **Milestone 2 — Live Weather Engine**: Animated icons, 24h timeline, and city-search integration.
+- [x] **Milestone 3 — Interactive Maps**: OpenStreetMap marker layers and POI discovery.
+- [x] **Milestone 4 — Persistence & Itineraries**: Drift SQLite core, drag-and-drop activities, and trip dashboard.
+- [x] **Milestone 5 — Advanced Travel Utilities**: Smart packing generator, achievement badges, and travel stats.
+- [x] **Milestone 6 — Ecosystem & Sharing**: Encrypted QR export/import, GPX route parsing, and haptic feedback.
 
 ---
 
@@ -159,7 +146,7 @@ lib/
 
 We welcome contributions from the open-source community! Please review our [Contribution Guidelines](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md) before submitting pull requests.
 
-For AI Coding Agents operating on this project, please strictly follow the guidelines detailed in [GEMINI.md](GEMINI.md).
+For AI Coding Agents operating on this project, please strictly follow the authoritative rules detailed in [GEMINI.md](GEMINI.md).
 
 ---
 

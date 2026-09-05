@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:drift/drift.dart';
 
+import '../../../../core/database/app_database.dart';
 import '../../../../core/errors/app_exception.dart';
 import '../../../../core/logging/app_logger.dart';
 import '../../../../core/result/result.dart';
@@ -36,9 +37,11 @@ final wikipediaServiceProvider = Provider<WikipediaService>((ref) {
 final exploreRepositoryProvider = Provider<ExploreRepository>((ref) {
   final countriesService = ref.watch(restCountriesServiceProvider);
   final wikiService = ref.watch(wikipediaServiceProvider);
+  final db = ref.watch(appDatabaseProvider);
   return ExploreRepositoryImpl(
     countriesService: countriesService,
     wikipediaService: wikiService,
+    db: db,
   );
 });
 
@@ -52,18 +55,15 @@ abstract class ExploreRepository {
 
   Future<void> toggleFavorite(String id);
 
-  bool isFavorite(String id);
+  Future<bool> isFavorite(String id);
 }
 
 class ExploreRepositoryImpl implements ExploreRepository {
   final RestCountriesService countriesService;
   final WikipediaService wikipediaService;
+  final AppDatabase db;
 
   final Map<String, Destination> _cache = {};
-  final Set<String> _favoriteIds = {};
-  bool _isPrefsLoaded = false;
-
-  static const String _favoritesKey = 'opentrail_favorite_destinations';
 
   static const List<Destination> _fallbackDestinations = [
     Destination(
@@ -275,48 +275,47 @@ class ExploreRepositoryImpl implements ExploreRepository {
   ExploreRepositoryImpl({
     required this.countriesService,
     required this.wikipediaService,
+    required this.db,
   });
 
-  Future<void> _ensurePrefsLoaded() async {
-    if (_isPrefsLoaded) return;
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final savedList = prefs.getStringList(_favoritesKey) ?? [];
-      _favoriteIds.addAll(savedList.map((e) => e.toLowerCase()));
-      _isPrefsLoaded = true;
-    } catch (e) {
-      AppLogger.warning('Failed to load favorite preferences: $e');
-    }
-  }
-
-  Future<void> _saveFavoritesToPrefs() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setStringList(_favoritesKey, _favoriteIds.toList());
-    } catch (e) {
-      AppLogger.warning('Failed to save favorite preferences: $e');
-    }
-  }
-
   @override
-  bool isFavorite(String id) => _favoriteIds.contains(id.toLowerCase());
+  Future<bool> isFavorite(String id) async {
+    final query = db.select(db.favorites)
+      ..where(
+        (f) =>
+            f.id.equals(id.toLowerCase()) & f.entityType.equals('destination'),
+      );
+    final result = await query.getSingleOrNull();
+    return result != null;
+  }
 
   @override
   Future<void> toggleFavorite(String id) async {
-    await _ensurePrefsLoaded();
     final key = id.toLowerCase();
-    if (_favoriteIds.contains(key)) {
-      _favoriteIds.remove(key);
+    final existing =
+        await (db.select(db.favorites)..where(
+              (f) => f.id.equals(key) & f.entityType.equals('destination'),
+            ))
+            .getSingleOrNull();
+
+    if (existing != null) {
+      await (db.delete(db.favorites)..where(
+            (f) => f.id.equals(key) & f.entityType.equals('destination'),
+          ))
+          .go();
     } else {
-      _favoriteIds.add(key);
+      await db
+          .into(db.favorites)
+          .insert(
+            FavoritesCompanion.insert(id: key, entityType: 'destination'),
+          );
     }
 
     final cached = _cache[key];
     if (cached != null) {
-      _cache[key] = cached.copyWith(isFavorite: _favoriteIds.contains(key));
+      final isFav = await isFavorite(key);
+      _cache[key] = cached.copyWith(isFavorite: isFav);
     }
-
-    await _saveFavoritesToPrefs();
   }
 
   @override
@@ -324,7 +323,6 @@ class ExploreRepositoryImpl implements ExploreRepository {
     String region = 'All',
     String query = '',
   }) async {
-    await _ensurePrefsLoaded();
     List<Destination> fetched;
     try {
       if (region.toLowerCase() == 'all' || region.isEmpty) {
@@ -341,12 +339,13 @@ class ExploreRepositoryImpl implements ExploreRepository {
       fetched = _fallbackDestinations;
     }
 
-    final mapped = fetched.map((dest) {
-      final isFav = _favoriteIds.contains(dest.id.toLowerCase());
+    final List<Destination> mapped = [];
+    for (final dest in fetched) {
+      final isFav = await isFavorite(dest.id);
       final updated = dest.copyWith(isFavorite: isFav);
       _cache[dest.id.toLowerCase()] = updated;
-      return updated;
-    }).toList();
+      mapped.add(updated);
+    }
 
     var resultList = mapped;
 
@@ -374,7 +373,6 @@ class ExploreRepositoryImpl implements ExploreRepository {
   Future<Result<Destination, AppException>> getDestinationDetail(
     String id,
   ) async {
-    await _ensurePrefsLoaded();
     final key = id.toLowerCase();
     var baseDestination = _cache[key];
 
@@ -390,7 +388,7 @@ class ExploreRepositoryImpl implements ExploreRepository {
       orElse: () => _fallbackDestinations.first,
     );
 
-    final isFav = _favoriteIds.contains(key);
+    final isFav = await isFavorite(key);
     baseDestination = baseDestination.copyWith(isFavorite: isFav);
 
     try {

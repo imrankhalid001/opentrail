@@ -129,14 +129,26 @@ class _WeatherScreenState extends ConsumerState<WeatherScreen> {
                                           color: theme.colorScheme.primary,
                                         ),
                                         const SizedBox(height: AppSpacing.sm),
-                                        Text(
-                                          '${weather.current.temperature.round()}°',
-                                          style: theme.textTheme.displayLarge
-                                              ?.copyWith(
-                                                fontWeight: FontWeight.bold,
-                                                color:
-                                                    theme.colorScheme.onSurface,
-                                              ),
+                                        TweenAnimationBuilder<double>(
+                                          tween: Tween(begin: 0.95, end: 1.05),
+                                          duration: const Duration(seconds: 2),
+                                          curve: Curves.easeInOut,
+                                          builder: (context, value, child) {
+                                            return Transform.scale(
+                                              scale: value,
+                                              child: child,
+                                            );
+                                          },
+                                          child: Text(
+                                            '${weather.current.temperature.round()}°',
+                                            style: theme.textTheme.displayLarge
+                                                ?.copyWith(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: theme
+                                                      .colorScheme
+                                                      .onSurface,
+                                                ),
+                                          ),
                                         ),
                                         Text(
                                           WeatherIconMapper.getDescription(

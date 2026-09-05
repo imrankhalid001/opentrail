@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/widgets/app_empty_state.dart';
+import '../../core/extensions/context_extension.dart';
 import '../../core/widgets/app_error_state.dart';
 import '../../features/explore/presentation/screens/destination_detail_screen.dart';
 import '../../features/explore/presentation/screens/explore_screen.dart';
+import '../../features/journey/presentation/screens/journey_screen.dart';
 import '../../features/map/presentation/screens/map_screen.dart';
+import '../../features/packing/presentation/screens/packing_list_screen.dart';
+import '../../features/trips/presentation/screens/create_trip_screen.dart';
+import '../../features/trips/presentation/screens/trip_detail_screen.dart';
+import '../../features/trips/presentation/screens/trips_screen.dart';
 import '../../features/weather/presentation/screens/weather_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -29,27 +36,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(path: '/map', builder: (context, state) => const MapScreen()),
           GoRoute(
             path: '/trips',
-            builder: (context, state) => const Scaffold(
-              body: SafeArea(
-                child: AppEmptyState(
-                  title: 'My Trips',
-                  subtitle:
-                      'Trip planning & offline itinerary builder (Milestone 4)',
-                ),
-              ),
-            ),
+            builder: (context, state) => const TripsScreen(),
           ),
           GoRoute(
             path: '/settings',
-            builder: (context, state) => Scaffold(
-              appBar: AppBar(title: const Text('Settings')),
-              body: const SafeArea(
-                child: AppEmptyState(
-                  title: 'Application Settings',
-                  subtitle: 'Theme customization, localization, & units',
-                ),
-              ),
-            ),
+            builder: (context, state) => const JourneyScreen(),
           ),
         ],
       ),
@@ -58,6 +49,24 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           final id = state.pathParameters['id'] ?? '';
           return DestinationDetailScreen(destinationId: id);
+        },
+      ),
+      GoRoute(
+        path: '/trips/create',
+        builder: (context, state) => const CreateTripScreen(),
+      ),
+      GoRoute(
+        path: '/trips/:id',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? '';
+          return TripDetailScreen(tripId: id);
+        },
+      ),
+      GoRoute(
+        path: '/trips/:id/packing',
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? '';
+          return PackingListScreen(tripId: id);
         },
       ),
     ],
@@ -69,10 +78,17 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   );
 });
 
-class MainShellScreen extends StatelessWidget {
+class MainShellScreen extends StatefulWidget {
   final Widget child;
 
   const MainShellScreen({super.key, required this.child});
+
+  @override
+  State<MainShellScreen> createState() => _MainShellScreenState();
+}
+
+class _MainShellScreenState extends State<MainShellScreen> {
+  DateTime? _lastBackPressTime;
 
   int _calculateSelectedIndex(BuildContext context) {
     final location = GoRouterState.of(context).uri.path;
@@ -105,38 +121,59 @@ class MainShellScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: child,
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _calculateSelectedIndex(context),
-        onDestinationSelected: (index) => _onItemTapped(index, context),
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.explore_outlined),
-            selectedIcon: Icon(Icons.explore),
-            label: 'Explore',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.wb_sunny_outlined),
-            selectedIcon: Icon(Icons.wb_sunny),
-            label: 'Weather',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.map_outlined),
-            selectedIcon: Icon(Icons.map),
-            label: 'Map',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.card_travel_outlined),
-            selectedIcon: Icon(Icons.card_travel),
-            label: 'Trips',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.settings_outlined),
-            selectedIcon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, dynamic result) async {
+        if (didPop) return;
+
+        final now = DateTime.now();
+        if (_lastBackPressTime == null ||
+            now.difference(_lastBackPressTime!) > const Duration(seconds: 2)) {
+          _lastBackPressTime = now;
+          Fluttertoast.showToast(
+            msg: context.l10n.backToExitMessage,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: context.colorScheme.secondary,
+            textColor: context.colorScheme.onSecondary,
+          );
+        } else {
+          await SystemNavigator.pop();
+        }
+      },
+      child: Scaffold(
+        body: widget.child,
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: _calculateSelectedIndex(context),
+          onDestinationSelected: (index) => _onItemTapped(index, context),
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(Icons.explore_outlined),
+              selectedIcon: Icon(Icons.explore),
+              label: 'Explore',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.wb_sunny_outlined),
+              selectedIcon: Icon(Icons.wb_sunny),
+              label: 'Weather',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.map_outlined),
+              selectedIcon: Icon(Icons.map),
+              label: 'Map',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.card_travel_outlined),
+              selectedIcon: Icon(Icons.card_travel),
+              label: 'Trips',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.emoji_events_outlined),
+              selectedIcon: Icon(Icons.emoji_events),
+              label: 'Journey',
+            ),
+          ],
+        ),
       ),
     );
   }

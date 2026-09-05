@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -57,13 +58,12 @@ class DestinationDetailScreen extends ConsumerWidget {
                       shadows: [Shadow(blurRadius: 8.0, color: Colors.black54)],
                     ),
                   ),
-                  background:
-                      destination.imageUrl != null &&
+                  background: destination.imageUrl != null &&
                           destination.imageUrl!.isNotEmpty
-                      ? Image.network(
-                          destination.imageUrl!,
+                      ? CachedNetworkImage(
+                          imageUrl: destination.imageUrl!,
                           fit: BoxFit.cover,
-                          errorBuilder: (ctx, err, stack) => Container(
+                          errorWidget: (context, url, error) => Container(
                             color: theme.colorScheme.primaryContainer,
                             child: Center(
                               child: Text(

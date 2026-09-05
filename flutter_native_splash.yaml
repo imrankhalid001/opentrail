@@ -1,0 +1,19 @@
+flutter_native_splash:
+  # The color of the background.
+  color: "#FFFFFF"
+  
+  # The image of the splash screen.
+  image: assets/brand/icon.png
+
+  # Android 12 (S) and higher support.
+  android_12:
+    color: "#FFFFFF"
+    icon_background_color: "#FFFFFF"
+    image: assets/brand/icon.png
+    
+  # Specific platform configurations.
+  android: true
+  ios: true
+  web: false
+
+  fullscreen: true

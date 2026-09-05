@@ -14,7 +14,7 @@ class MockExploreRepository implements ExploreRepository {
   MockExploreRepository(this.mockDestinations);
 
   @override
-  bool isFavorite(String id) => _favs.contains(id.toLowerCase());
+  Future<bool> isFavorite(String id) async => _favs.contains(id.toLowerCase());
 
   @override
   Future<void> toggleFavorite(String id) async {

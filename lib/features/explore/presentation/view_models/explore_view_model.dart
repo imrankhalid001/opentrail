@@ -50,7 +50,7 @@ class ExploreViewModel extends AsyncNotifier<List<Destination>> {
     final currentList = state.value;
     if (currentList == null) return;
 
-    final isFav = repository.isFavorite(destinationId);
+    final isFav = await repository.isFavorite(destinationId);
     final updatedList = currentList.map((dest) {
       if (dest.id.toLowerCase() == destinationId.toLowerCase()) {
         return dest.copyWith(isFavorite: isFav);

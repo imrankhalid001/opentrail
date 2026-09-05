@@ -45,5 +45,15 @@
         "type": "String"
       }
     }
-  }
+  },
+  "tripsUpcoming": "Upcoming Adventures",
+  "tripsPast": "Past Memories",
+  "tripsPlanNew": "Plan New Trip",
+  "tripsNoTrips": "No Trips Planned",
+  "tripsNoTripsSubtitle": "Start your next adventure by creating a new trip itinerary.",
+  "tripsTitleLabel": "Trip Title",
+  "tripsDestinationLabel": "Destination",
+  "tripsSelectDates": "Select Dates",
+  "tripsCreateButton": "Create Trip",
+  "backToExitMessage": "Press back again to exit"
 }

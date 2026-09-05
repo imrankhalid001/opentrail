@@ -37,7 +37,7 @@ class DestinationDetailViewModel
     final repository = ref.read(exploreRepositoryProvider);
     await repository.toggleFavorite(current.id);
 
-    final isFav = repository.isFavorite(current.id);
+    final isFav = await repository.isFavorite(current.id);
     final updated = current.copyWith(isFavorite: isFav);
     state = AsyncValue.data(updated);
 

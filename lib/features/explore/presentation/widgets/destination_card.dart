@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import '../../../../core/widgets/app_badge.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_favorite_button.dart';
@@ -47,13 +48,12 @@ class DestinationCard extends StatelessWidget {
                       end: Alignment.bottomRight,
                     ),
                   ),
-                  child:
-                      destination.imageUrl != null &&
+                  child: destination.imageUrl != null &&
                           destination.imageUrl!.isNotEmpty
-                      ? Image.network(
-                          destination.imageUrl!,
+                      ? CachedNetworkImage(
+                          imageUrl: destination.imageUrl!,
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
+                          errorWidget: (context, url, error) {
                             return Center(
                               child: Text(
                                 destination.flagEmoji,
