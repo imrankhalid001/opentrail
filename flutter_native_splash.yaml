@@ -1,7 +1,7 @@
 flutter_native_splash:
   # The color of the background.
   color: "#FFFFFF"
-  
+
   # The image of the splash screen.
   image: assets/brand/icon.png
 

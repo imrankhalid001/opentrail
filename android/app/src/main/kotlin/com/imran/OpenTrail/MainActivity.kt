@@ -1,4 +1,4 @@
-package com.imran.OpenTrail.flutter_projects
+package com.imran.OpenTrail
 
 import io.flutter.embedding.android.FlutterActivity
 
