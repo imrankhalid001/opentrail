@@ -44,6 +44,20 @@
 
 ---
 
+## 📸 Visual Preview & Demo
+
+### 📺 Video Demonstration
+[![Watch the Demo](https://img.shields.io/badge/YouTube-Watch%20Demo-red?style=for-the-badge&logo=youtube)](https://youtube.com/shorts/9rkj5nQ8Cw0)
+
+### 📱 App Gallery
+| | | |
+|:---:|:---:|:---:|
+| ![Explore](screenshots/Screenshot_20260906_115800.jpg.jpeg) | ![Weather](screenshots/Screenshot_20260906_115807.jpg.jpeg) | ![Map](screenshots/Screenshot_20260906_115815.jpg.jpeg) |
+| ![Trips](screenshots/Screenshot_20260906_115836.jpg.jpeg) | ![Packing](screenshots/Screenshot_20260906_115850.jpg.jpeg) | ![Journey](screenshots/Screenshot_20260906_115907.jpg.jpeg) |
+| ![Details](screenshots/Screenshot_20260906_115913.jpg.jpeg) | ![QR Share](screenshots/Screenshot_20260906_115944.jpg.jpeg) | ![Stats](screenshots/Screenshot_20260906_115949.jpg.jpeg) |
+
+---
+
 ## 🏗️ Architecture Overview
 
 OpenTrail enforces a **Feature-First MVVM Architecture** paired with the **Repository Pattern** and **Unidirectional Data Flow**.
