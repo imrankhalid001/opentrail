@@ -13,6 +13,7 @@ import '../view_models/trips_view_model.dart';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/services.dart';
+
 import '../widgets/qr_share_dialog.dart';
 
 final tripItineraryProvider =

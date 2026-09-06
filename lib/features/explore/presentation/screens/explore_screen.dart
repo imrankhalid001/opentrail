@@ -98,7 +98,9 @@ class ExploreScreen extends ConsumerWidget {
                     itemBuilder: (context, index) {
                       final dest = destinations[index];
                       return TweenAnimationBuilder<double>(
-                        duration: Duration(milliseconds: 300 + (index % 10 * 50)),
+                        duration: Duration(
+                          milliseconds: 300 + (index % 10 * 50),
+                        ),
                         tween: Tween(begin: 0.0, end: 1.0),
                         builder: (context, value, child) {
                           return Opacity(

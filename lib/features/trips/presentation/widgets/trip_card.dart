@@ -51,12 +51,12 @@ class TripCard extends StatelessWidget {
               child: Stack(
                 children: [
                   if (trip.coverImageUrl != null)
-                  CachedNetworkImage(
-                    imageUrl: trip.coverImageUrl!,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    height: double.infinity,
-                  ),
+                    CachedNetworkImage(
+                      imageUrl: trip.coverImageUrl!,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                    ),
                   Positioned(
                     top: AppSpacing.sm,
                     right: AppSpacing.sm,

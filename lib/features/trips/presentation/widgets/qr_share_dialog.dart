@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../core/database/app_database.dart';
 import '../../../../core/sharing/trip_share_service.dart';
@@ -8,11 +9,7 @@ class QrShareDialog extends StatelessWidget {
   final Trip trip;
   final List<ItineraryItem> items;
 
-  const QrShareDialog({
-    super.key,
-    required this.trip,
-    required this.items,
-  });
+  const QrShareDialog({super.key, required this.trip, required this.items});
 
   @override
   Widget build(BuildContext context) {

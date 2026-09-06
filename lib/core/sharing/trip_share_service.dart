@@ -1,5 +1,7 @@
 import 'dart:convert';
+
 import 'package:encrypt/encrypt.dart';
+
 import '../database/app_database.dart';
 
 class TripShareService {

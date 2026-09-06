@@ -71,32 +71,30 @@ class TripsScreen extends ConsumerWidget {
                       ?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: AppSpacing.sm),
-                ...upcomingTrips.asMap().entries.map(
-                  (entry) {
-                    final index = entry.key;
-                    final trip = entry.value;
-                    return TweenAnimationBuilder<double>(
-                      duration: Duration(milliseconds: 400 + (index * 100)),
-                      tween: Tween(begin: 0.0, end: 1.0),
-                      builder: (context, value, child) {
-                        return Opacity(
-                          opacity: value,
-                          child: Transform.translate(
-                            offset: Offset(30 * (1 - value), 0),
-                            child: child,
-                          ),
-                        );
-                      },
-                      child: TripCard(
-                        trip: trip,
-                        onTap: () => context.push('/trips/${trip.id}'),
-                        onDelete: () => ref
-                            .read(tripsViewModelProvider.notifier)
-                            .deleteTrip(trip.id),
-                      ),
-                    );
-                  },
-                ),
+                ...upcomingTrips.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final trip = entry.value;
+                  return TweenAnimationBuilder<double>(
+                    duration: Duration(milliseconds: 400 + (index * 100)),
+                    tween: Tween(begin: 0.0, end: 1.0),
+                    builder: (context, value, child) {
+                      return Opacity(
+                        opacity: value,
+                        child: Transform.translate(
+                          offset: Offset(30 * (1 - value), 0),
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: TripCard(
+                      trip: trip,
+                      onTap: () => context.push('/trips/${trip.id}'),
+                      onDelete: () => ref
+                          .read(tripsViewModelProvider.notifier)
+                          .deleteTrip(trip.id),
+                    ),
+                  );
+                }),
                 const SizedBox(height: AppSpacing.lg),
               ],
               if (pastTrips.isNotEmpty) ...[
@@ -106,32 +104,30 @@ class TripsScreen extends ConsumerWidget {
                       ?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: AppSpacing.sm),
-                ...pastTrips.asMap().entries.map(
-                  (entry) {
-                    final index = entry.key;
-                    final trip = entry.value;
-                    return TweenAnimationBuilder<double>(
-                      duration: Duration(milliseconds: 400 + (index * 100)),
-                      tween: Tween(begin: 0.0, end: 1.0),
-                      builder: (context, value, child) {
-                        return Opacity(
-                          opacity: value,
-                          child: Transform.translate(
-                            offset: Offset(30 * (1 - value), 0),
-                            child: child,
-                          ),
-                        );
-                      },
-                      child: TripCard(
-                        trip: trip,
-                        onTap: () => context.push('/trips/${trip.id}'),
-                        onDelete: () => ref
-                            .read(tripsViewModelProvider.notifier)
-                            .deleteTrip(trip.id),
-                      ),
-                    );
-                  },
-                ),
+                ...pastTrips.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final trip = entry.value;
+                  return TweenAnimationBuilder<double>(
+                    duration: Duration(milliseconds: 400 + (index * 100)),
+                    tween: Tween(begin: 0.0, end: 1.0),
+                    builder: (context, value, child) {
+                      return Opacity(
+                        opacity: value,
+                        child: Transform.translate(
+                          offset: Offset(30 * (1 - value), 0),
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: TripCard(
+                      trip: trip,
+                      onTap: () => context.push('/trips/${trip.id}'),
+                      onDelete: () => ref
+                          .read(tripsViewModelProvider.notifier)
+                          .deleteTrip(trip.id),
+                    ),
+                  );
+                }),
               ],
             ],
           );
@@ -159,35 +155,38 @@ class TripsScreen extends ConsumerWidget {
     final tripData = data['trip'] as Map<String, dynamic>;
     final itemsData = data['items'] as List<dynamic>;
 
-    final newTripId =
-        'imported_${DateTime.now().millisecondsSinceEpoch}';
+    final newTripId = 'imported_${DateTime.now().millisecondsSinceEpoch}';
 
     await db.transaction(() async {
-      await db.into(db.trips).insert(
-        TripsCompanion.insert(
-          id: newTripId,
-          title: '${tripData['title'] as String} (Imported)',
-          destinationId: tripData['destinationId'] as String,
-          startDate: DateTime.parse(tripData['startDate'] as String),
-          endDate: DateTime.parse(tripData['endDate'] as String),
-          coverImageUrl: Value(tripData['coverImageUrl'] as String?),
-        ),
-      );
+      await db
+          .into(db.trips)
+          .insert(
+            TripsCompanion.insert(
+              id: newTripId,
+              title: '${tripData['title'] as String} (Imported)',
+              destinationId: tripData['destinationId'] as String,
+              startDate: DateTime.parse(tripData['startDate'] as String),
+              endDate: DateTime.parse(tripData['endDate'] as String),
+              coverImageUrl: Value(tripData['coverImageUrl'] as String?),
+            ),
+          );
 
       for (final item in itemsData) {
         final i = item as Map<String, dynamic>;
-        await db.into(db.itineraryItems).insert(
-          ItineraryItemsCompanion.insert(
-            id: 'imported_${i['id'] as String}_${DateTime.now().microsecondsSinceEpoch}',
-            tripId: newTripId,
-            title: i['title'] as String,
-            dayNumber: i['dayNumber'] as int,
-            sortOrder: i['sortOrder'] as int,
-            locationName: Value(i['locationName'] as String?),
-            latitude: Value(i['latitude'] as double?),
-            longitude: Value(i['longitude'] as double?),
-          ),
-        );
+        await db
+            .into(db.itineraryItems)
+            .insert(
+              ItineraryItemsCompanion.insert(
+                id: 'imported_${i['id'] as String}_${DateTime.now().microsecondsSinceEpoch}',
+                tripId: newTripId,
+                title: i['title'] as String,
+                dayNumber: i['dayNumber'] as int,
+                sortOrder: i['sortOrder'] as int,
+                locationName: Value(i['locationName'] as String?),
+                latitude: Value(i['latitude'] as double?),
+                longitude: Value(i['longitude'] as double?),
+              ),
+            );
       }
     });
   }

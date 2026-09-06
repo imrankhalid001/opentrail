@@ -58,7 +58,8 @@ class DestinationDetailScreen extends ConsumerWidget {
                       shadows: [Shadow(blurRadius: 8.0, color: Colors.black54)],
                     ),
                   ),
-                  background: destination.imageUrl != null &&
+                  background:
+                      destination.imageUrl != null &&
                           destination.imageUrl!.isNotEmpty
                       ? CachedNetworkImage(
                           imageUrl: destination.imageUrl!,

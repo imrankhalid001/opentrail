@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
+
 import '../../../../core/widgets/app_badge.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_favorite_button.dart';
@@ -48,7 +49,8 @@ class DestinationCard extends StatelessWidget {
                       end: Alignment.bottomRight,
                     ),
                   ),
-                  child: destination.imageUrl != null &&
+                  child:
+                      destination.imageUrl != null &&
                           destination.imageUrl!.isNotEmpty
                       ? CachedNetworkImage(
                           imageUrl: destination.imageUrl!,
